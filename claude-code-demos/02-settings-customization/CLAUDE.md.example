@@ -1,0 +1,110 @@
+# プロジェクト名 — Claude Code ガイド
+
+このファイルは Claude Code がセッション開始時に自動的に読み込む指示書です。
+プロジェクトの概要、規約、よく使うコマンドをここに記載してください。
+
+---
+
+## プロジェクト概要
+
+**目的:** （プロジェクトの目的を1〜2文で）
+**技術スタック:** TypeScript + Node.js + PostgreSQL
+**主な担当者:** team@example.com
+
+---
+
+## リポジトリ構成
+
+```
+src/
+├── api/          # REST API エンドポイント
+├── services/     # ビジネスロジック
+├── models/       # データモデル
+├── utils/        # 共通ユーティリティ
+└── tests/        # テストファイル
+```
+
+---
+
+## 開発コマンド
+
+```bash
+npm install          # 依存関係インストール
+npm run dev          # 開発サーバー起動
+npm test             # テスト実行
+npm run lint         # Lint チェック
+npm run build        # プロダクションビルド
+```
+
+---
+
+## コーディング規約
+
+- TypeScript strict モードを使用（`tsconfig.json` 参照）
+- ESLint + Prettier でフォーマット（コミット前に自動実行）
+- 命名規則: キャメルケース（変数・関数）、パスカルケース（クラス・型）
+- コメントは日本語 OK、ただし英語推奨
+
+### コミットメッセージ
+
+Conventional Commits 形式を使用:
+```
+feat: 新機能
+fix: バグ修正
+docs: ドキュメント更新
+refactor: リファクタリング
+test: テスト追加・修正
+chore: ビルド・設定変更
+```
+
+---
+
+## 禁止事項
+
+- `main` ブランチへの直接プッシュ禁止
+- `.env` ファイルのコミット禁止
+- `console.log` をコミットしない（デバッグ後に削除）
+- `any` 型の使用禁止（`unknown` を使う）
+
+---
+
+## アーキテクチャ上の決定事項
+
+<!-- 重要な決定や、知っておくべき「なぜそうなっているか」をここに記録する -->
+
+- **認証:** JWT を使用（OAuth への移行は v3.0 で予定）
+- **データベース:** マイグレーションは必ず rollback スクリプト付き
+- **API バージョニング:** `/api/v1/` プレフィックス固定
+
+---
+
+## テスト方針
+
+- 新機能には必ず単体テストを追加
+- E2E テストは `tests/e2e/` 以下
+- テストカバレッジ 80% 以上を維持
+- CI が通らないと main にマージ不可
+
+---
+
+## よく使うワークフロー
+
+### 新機能開発
+
+```bash
+git checkout -b feature/my-feature
+# 実装...
+npm test
+git commit -m "feat: my feature"
+git push -u origin feature/my-feature
+# PR 作成
+```
+
+### バグ修正
+
+```bash
+git checkout -b fix/bug-description
+# 修正...
+npm test
+git commit -m "fix: description of fix"
+```

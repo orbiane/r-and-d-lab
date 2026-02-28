@@ -1,0 +1,87 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+
+  // ────────────────────────────────────────────────
+  // Claude Code キーバインド設定
+  //
+  // コンテキスト一覧:
+  //   Global       - 常時適用
+  //   Chat         - プロンプト入力中
+  //   Autocomplete - 補完候補表示中
+  //   Confirmation - 権限確認ダイアログ
+  //   Transcript   - 会話履歴表示中
+  //   HistorySearch - 履歴検索中
+  //
+  // キー記法:
+  //   ctrl+x, alt+x, shift+x, meta+x (Cmd/Win)
+  //   ctrl+k ctrl+s  <- コードシーケンス（2キー連続）
+  //   null           <- バインド解除
+  // ────────────────────────────────────────────────
+
+  "bindings": [
+    {
+      "context": "Global",
+      "bindings": {
+        // Todo リストの表示切替
+        "ctrl+t": "app:toggleTodos",
+
+        // 会話履歴（トランスクリプト）の表示切替
+        "ctrl+o": "app:toggleTranscript",
+
+        // 処理中断（Ctrl+C と同じ）
+        "ctrl+c": "app:interrupt",
+
+        // Claude Code を終了
+        "ctrl+d": "app:exit"
+      }
+    },
+    {
+      "context": "Chat",
+      "bindings": {
+        // プロンプトを送信（デフォルト: Enter）
+        "ctrl+enter": "chat:submit",
+
+        // 外部エディタでプロンプトを編集
+        "ctrl+e": "chat:externalEditor",
+
+        // 画像を貼り付け
+        "ctrl+i": "chat:imagePaste",
+
+        // プロンプトを一時保存（stash）
+        "ctrl+s": "chat:stash",
+
+        // モード切替（default / plan / acceptEdits）
+        "shift+tab": "chat:cycleMode",
+
+        // キャンセル
+        "escape": "chat:cancel",
+
+        // Ctrl+U のデフォルト動作を無効化
+        "ctrl+u": null
+      }
+    },
+    {
+      "context": "HistorySearch",
+      "bindings": {
+        // 履歴検索で次の候補へ
+        "ctrl+r": "historySearch:next",
+
+        // 検索を確定（入力欄に挿入）
+        "escape": "historySearch:accept",
+
+        // 検索を確定してすぐ実行
+        "enter": "historySearch:execute"
+      }
+    },
+    {
+      "context": "Confirmation",
+      "bindings": {
+        // 確認ダイアログで「はい」
+        "y": "confirmation:yes",
+
+        // 確認ダイアログで「いいえ」
+        "n": "confirmation:no"
+      }
+    }
+  ]
+}

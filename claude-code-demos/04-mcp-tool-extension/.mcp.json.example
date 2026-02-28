@@ -1,0 +1,80 @@
+{
+  // ────────────────────────────────────────────────────────────────
+  // .mcp.json — MCP サーバー設定（プロジェクト共有）
+  //
+  // このファイルはプロジェクトルートに置き、git で共有できます。
+  // APIキーや認証情報は環境変数で渡してください（直接記載しない）。
+  //
+  // サーバータイプ:
+  //   "http"  — クラウドサービス（REST/SSE）
+  //   "stdio" — ローカルプロセス（stdin/stdout）
+  //   "sse"   — Server-Sent Events（レガシー）
+  // ────────────────────────────────────────────────────────────────
+  "mcpServers": {
+
+    // ──────────────────────────────────────────────────────────────
+    // GitHub — PR・Issue・コードレビュー（GitHub Copilot 必要）
+    // セットアップ: https://github.com/settings/tokens
+    // ──────────────────────────────────────────────────────────────
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      }
+    },
+
+    // ──────────────────────────────────────────────────────────────
+    // PostgreSQL — データベースクエリ・スキーマ確認
+    // 環境変数: POSTGRESQL_URL=postgres://user:pass@host:5432/db
+    // ──────────────────────────────────────────────────────────────
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@bytebase/dbhub"],
+      "env": {
+        "POSTGRESQL_URL": "${POSTGRESQL_URL}"
+      }
+    },
+
+    // ──────────────────────────────────────────────────────────────
+    // Filesystem — ファイルシステム操作（指定ディレクトリ以下）
+    // セキュリティのため、アクセス範囲を明示的に制限すること
+    // ──────────────────────────────────────────────────────────────
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/user/r-and-d-lab"
+      ]
+    },
+
+    // ──────────────────────────────────────────────────────────────
+    // カスタム社内 API サーバー
+    // 環境変数でエンドポイントと認証情報を渡す
+    // ──────────────────────────────────────────────────────────────
+    "internal-api": {
+      "type": "http",
+      "url": "${INTERNAL_API_BASE_URL:-https://api.internal.example.com}/mcp",
+      "headers": {
+        "Authorization": "Bearer ${INTERNAL_API_KEY}",
+        "X-Team": "${TEAM_NAME:-engineering}"
+      }
+    },
+
+    // ──────────────────────────────────────────────────────────────
+    // ローカル Python サーバーの例
+    // ──────────────────────────────────────────────────────────────
+    "my-python-server": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/path/to/your/mcp_server.py"],
+      "env": {
+        "API_KEY": "${MY_SERVICE_API_KEY}",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}

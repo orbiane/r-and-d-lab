@@ -1,0 +1,12 @@
+{
+  "name": "sample-mcp-server",
+  "version": "1.0.0",
+  "description": "Claude Code カスタム MCP サーバー サンプル",
+  "main": "server.js",
+  "bin": {
+    "sample-mcp-server": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
