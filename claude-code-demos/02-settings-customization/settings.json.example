@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  // ────────────────────────────────────────────────
+  // デフォルトの権限モード
+  // "default"        : 初回ツール使用時に確認（推奨）
+  // "acceptEdits"    : ファイル編集を自動承認
+  // "plan"           : 読み取り専用（編集・実行なし）
+  // "bypassPermissions": 全確認スキップ（隔離環境専用）
+  // ────────────────────────────────────────────────
+  "defaultMode": "default",
+
+  // ────────────────────────────────────────────────
+  // モデル選択
+  // "claude-opus-4-6"   : 最高性能（複雑なタスク向け）
+  // "claude-sonnet-4-6" : バランス（デフォルト推奨）
+  // "claude-haiku-4-5"  : 高速・低コスト
+  // ────────────────────────────────────────────────
+  "model": "claude-sonnet-4-6",
+
+  // ────────────────────────────────────────────────
+  // 権限ルール
+  // ────────────────────────────────────────────────
+  "permissions": {
+    "allow": [
+      // 開発コマンドを事前承認（毎回確認が不要になる）
+      "Bash(npm run *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+
+      // ファイル操作
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+
+      // 特定ドメインへのアクセスを許可
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.anthropic.com)"
+    ],
+
+    "deny": [
+      // 危険なコマンドをブロック
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(DROP TABLE *)",
+
+      // 機密ファイルの読み取りをブロック
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/secrets/**)",
+
+      // 外部への無制限アクセスをブロック
+      "Bash(curl https://external-api.*)"
+    ],
+
+    "ask": [
+      // 実行前に必ず確認するコマンド
+      "Bash(git push *)",
+      "Bash(npm publish *)",
+      "Bash(kubectl apply *)"
+    ]
+  },
+
+  // ────────────────────────────────────────────────
+  // 環境変数（Claude Code セッションに渡す）
+  // ────────────────────────────────────────────────
+  "env": {
+    "NODE_ENV": "development",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0"
+  },
+
+  // ────────────────────────────────────────────────
+  // 追加の作業ディレクトリ（複数リポジトリ構成向け）
+  // ────────────────────────────────────────────────
+  "additionalDirectories": [
+    // "../shared-lib",
+    // "~/workspace/common-utils"
+  ],
+
+  // ────────────────────────────────────────────────
+  // フック（hooks セクションは 03-hooks-automation/ を参照）
+  // ────────────────────────────────────────────────
+  "hooks": {}
+}
