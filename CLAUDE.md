@@ -8,7 +8,7 @@ This file provides guidance for AI assistants (Claude and others) working in thi
 
 **Name:** r-and-d-lab
 **Purpose:** Research and Development Lab — a workspace for experimentation, prototyping, and exploratory engineering.
-**State:** Freshly initialized. No application code, dependencies, or build system exists yet.
+**State:** Active. TIL (学習メモ) システムと週次レポート自動生成スクリプトが稼働中。
 
 ---
 
@@ -16,11 +16,35 @@ This file provides guidance for AI assistants (Claude and others) working in thi
 
 ```
 r-and-d-lab/
-├── CLAUDE.md       # This file
-└── README.md       # Project title only
+├── CLAUDE.md              # This file
+├── README.md              # Project overview
+├── til/                   # 日々の学習メモ (Today I Learned)
+│   ├── TEMPLATE.md        # 新規メモのテンプレート
+│   └── YYYY-MM-DD.md      # 日付ごとのメモ
+├── reports/               # 週次レポート生成先（自動生成）
+├── scripts/
+│   └── weekly-report.sh   # 週次レポート生成スクリプト
+└── claude-code-demos/     # Claude Code 機能デモ集
 ```
 
-The repository is intentionally minimal. As projects and experiments are added, this file should be updated to reflect the evolving structure.
+## TIL ルール
+
+- ファイル名は `YYYY-MM-DD.md` 形式
+- `til/TEMPLATE.md` をコピーして使う
+- タグは小文字・ハイフン区切り（例: `claude-code`, `web-api`）
+- 毎日 1 ファイル（複数トピックは同ファイルにまとめる）
+
+## 週次レポート生成
+
+```bash
+# 先週分のレポートを自動生成
+bash scripts/weekly-report.sh
+
+# 期間を指定する場合
+bash scripts/weekly-report.sh 2026-02-23 2026-03-01
+```
+
+生成されたレポートは `reports/week-of-YYYY-MM-DD.md` に保存される。
 
 ---
 
